@@ -1,10 +1,13 @@
 package com.test;
 
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WindowType;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -15,9 +18,23 @@ public class Utility {
 	// reference of ChromeDriver and ChromeOption
 	ChromeDriver cDriver;
 	ChromeOptions cOptions;
+	Output output;
+
+	// this method opened primary browser for starting work
+	public void setUp() {
+		cOptions = new ChromeOptions();
+		cDriver = new ChromeDriver();
+
+		// this is for maximizing window
+		cDriver.manage().window().maximize();
+
+		// primary link of web site
+		cDriver.get("https://www.yellowpages.com/search?search_terms=gun+shop&geo_location_terms=Fresno%2C+CA");
+
+	}
 
 	// this method is work for all activity
-	public void doActibity() throws InterruptedException {
+	public void doActibity() throws IOException {
 
 		// checking nextPage navigation and if have next page it return false, if haven't next page it return true.
 		boolean nextPage = cDriver.findElements(By.xpath("//a[@class='next ajax-page']")).isEmpty();
@@ -58,6 +75,7 @@ public class Utility {
 
 				// collecting each company name
 				String name = cDriver.findElement(By.xpath("//h1[@class='dockable business-name']")).getText();
+//				output.writeInExel("Roman");
 				System.out.println("Company Name: "+name);
 
 				// collecting each company telephone number
@@ -89,17 +107,5 @@ public class Utility {
 		}
 
 	}
-	
-	// this method opened primary browser for starting work
-	public void setUp() {
-		cOptions = new ChromeOptions();
-		cDriver = new ChromeDriver();
 
-		// this is for maximizing window
-		cDriver.manage().window().maximize();
-		
-		// primary link of web site
-		cDriver.get("https://www.yellowpages.com/search?search_terms=gun+shop&geo_location_terms=Fresno%2C+CA");
-
-	} 
 }
